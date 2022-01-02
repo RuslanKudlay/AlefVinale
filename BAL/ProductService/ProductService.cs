@@ -25,6 +25,7 @@ namespace BAL.ProductService
             _dbContext.Products.Add(newProduct);
             _dbContext.SaveChanges();
             return product;
+
         }
 
         public Product EditProduct(Product product)
