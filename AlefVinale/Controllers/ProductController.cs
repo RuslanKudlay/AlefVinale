@@ -20,13 +20,13 @@ namespace AlefVinale.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Product> PostProduct(Product product)
+        public ActionResult<ProductModel> PostProduct(ProductModel product)
         {
             return _productService.AddProduct(product);
         }
 
         [HttpPut]
-        public ActionResult<Product> Putproduct(Product product)
+        public ActionResult<ProductModel> Putproduct(ProductModel product)
         {
             var editProduct = _productService.EditProduct(product);
             if (editProduct != null)
@@ -40,7 +40,7 @@ namespace AlefVinale.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Product>> GetProduct()
+        public ActionResult<List<ProductModel>> GetProduct()
         {
             return _productService.GetAllProducts();
         }

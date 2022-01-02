@@ -1,5 +1,7 @@
-﻿using BAL.Model;
+﻿using AutoMapper;
+using BAL.Model;
 using DAL;
+using DAL.Entityes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +13,17 @@ namespace BAL.ProductService
     public class ProductService : IProductService
     {
         private readonly IApplicationDbContext _dbContext;
+        private readonly Mapper _autoMapper;
         public ProductService(IApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
+            var mapperConfig = new MapperConfiguration(_ =>
+            {
+                _.CreateMap<Product, ProductModel>();
+            });
+            _autoMapper = new Mapper(mapperConfig);
         }
-        public Product AddProduct(Product product)
+        public ProductModel AddProduct(ProductModel product)
         {
             var newProduct = new DAL.Entityes.Product
             {
@@ -28,7 +36,7 @@ namespace BAL.ProductService
 
         }
 
-        public Product EditProduct(Product product)
+        public ProductModel EditProduct(ProductModel product)
         {
             var editProduct = _dbContext.Products.FirstOrDefault(_ => _.Id == product.Id);
 
@@ -47,20 +55,10 @@ namespace BAL.ProductService
             }
         }
 
-        public List<Product> GetAllProducts()
+        public List<ProductModel> GetAllProducts()
         {
             var getProducts = _dbContext.Products.ToList();
-            var resProduct = new List<Product>();
-            foreach(var _ in getProducts)
-            {
-                var mappedProduct = new Product
-                {
-                    Id = _.Id,
-                    Meaning = _.Meaning,
-                    Name = _.Name
-                };
-                resProduct.Add(mappedProduct);
-            }
+            var resProduct = _autoMapper.Map<List<Product>, List<ProductModel>>(getProducts);
             return resProduct;
         }
     }

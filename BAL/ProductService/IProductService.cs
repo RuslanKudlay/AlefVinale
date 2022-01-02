@@ -9,8 +9,8 @@ namespace BAL.ProductService
 {
     public interface IProductService
     {
-        List<Product> GetAllProducts();
-        Product AddProduct(Product product);
-        Product EditProduct(Product product);
+        List<ProductModel> GetAllProducts();
+        ProductModel AddProduct(ProductModel product);
+        ProductModel EditProduct(ProductModel product);
     }
 }
