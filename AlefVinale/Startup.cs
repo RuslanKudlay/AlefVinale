@@ -32,6 +32,14 @@ namespace AlefVinale
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
             services.AddScoped<IProductService, ProductService>();
 
+            services.AddCors(options => options.AddPolicy("AngularPolicy",
+                builder =>
+                {
+                    builder.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .WithExposedHeaders("*");
+                }));
 
             services.AddDbContext<ApplicationDbContext>(
                 option =>
@@ -58,6 +66,8 @@ namespace AlefVinale
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AlefVinale v1"));
             }
 
+            app.UseCors("AngularPolicy");
+            app.UseAuthentication();
             app.UseHttpsRedirection();
 
             app.UseRouting();
